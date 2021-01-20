@@ -9,7 +9,7 @@ const initialState: PostsState = {
 export const getPostsReducer = (
   state: PostsState = initialState,
   { type, payload }: GetPostsActionType,
-) => {
+): PostsState => {
   switch (type) {
     case GET_POSTS_REQUEST:
       return {
