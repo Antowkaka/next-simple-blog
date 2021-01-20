@@ -1,7 +1,9 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import { useForm } from 'react-hook-form';
+import styled from 'styled-components';
+import { IPost } from '../type';
 
-const StyledPostForm = styled.div`
+const StyledPostForm = styled.form`
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -35,7 +37,7 @@ const StyledTextarea = styled.textarea`
   padding-left: 20px;
 `;
 
-const StyledButton = styled.button`
+const StyledButton = styled.input`
   width: 80%;
   background-color: #0070f3;
   border-radius: 20px;
@@ -45,22 +47,50 @@ const StyledButton = styled.button`
   outline: none;
   margin-top: 20px;
   cursor: pointer;
-  color:#ffffff;
+  color: #ffffff;
   &:hover {
-    background-color: #464B4E;
+    background-color: #464b4e;
   }
 `;
 
+const StyledError = styled.div`
+  width: 80%;
+  height: 40px;
+  margin-top: 10px;
+  background-color: #eeeeee;
+  border-radius: 20px;
+  color: darkred;
+  text-align: center;
+  padding: 5px 0;
+  text-transform: uppercase;
+  font-weight: bold;
+`;
+
 const NewPostForm = (): JSX.Element => {
+  const { register, handleSubmit, errors } = useForm<IPost>();
 
+  const onSubmit = (data) => {
+    console.log(data);
+  };
 
-    return (
-        <StyledPostForm>
-            <StyledInput type="text" placeholder="Post title"/>
-            <StyledTextarea placeholder="Post body"/>
-            <StyledButton type="submit">Create</StyledButton>
-        </StyledPostForm>
-    )
-}
+  return (
+    <StyledPostForm onSubmit={handleSubmit(onSubmit)}>
+      <StyledInput
+        name="title"
+        type="text"
+        placeholder="Post title"
+        ref={register({ required: true, maxLength: 10 })}
+      />
+      {errors.title && <StyledError>Title is required</StyledError>}
+      <StyledTextarea
+        name="body"
+        placeholder="Post body"
+        ref={register({ required: true, minLength: 20 })}
+      />
+      {errors.body && <StyledError>Text is required and must contain min. 20 symbols</StyledError>}
+      <StyledButton type="submit" value="Create" />
+    </StyledPostForm>
+  );
+};
 
 export default NewPostForm;
