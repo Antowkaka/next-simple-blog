@@ -7,6 +7,7 @@ import { useRouter } from 'next/router';
 import { IPost } from '../type';
 import { createPostRequestAction } from '../store/actions/createPostAction';
 import useShallowEqualSelector from '../hooks/useShallowEqualSelector';
+import { clearPostStatusAction } from '../store/actions/clearPostStatusAction';
 
 const StyledPostForm = styled.form`
   display: flex;
@@ -86,6 +87,7 @@ const NewPostForm = (): JSX.Element => {
 
   if (status === 'success') {
     router.replace('/');
+    dispatch(clearPostStatusAction());
   }
 
   return (
