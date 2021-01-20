@@ -1,7 +1,12 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
+import { useDispatch } from 'react-redux';
+import { useRouter } from 'next/router';
+
 import { IPost } from '../type';
+import { createPostRequestAction } from '../store/actions/createPostAction';
+import useShallowEqualSelector from '../hooks/useShallowEqualSelector';
 
 const StyledPostForm = styled.form`
   display: flex;
@@ -68,10 +73,20 @@ const StyledError = styled.div`
 
 const NewPostForm = (): JSX.Element => {
   const { register, handleSubmit, errors } = useForm<IPost>();
+  const {
+    post: { status },
+  } = useShallowEqualSelector((state) => state);
+
+  const dispatch = useDispatch();
+  const router = useRouter();
 
   const onSubmit = (data) => {
-    console.log(data);
+    dispatch(createPostRequestAction(data));
   };
+
+  if (status === 'success') {
+    router.replace('/');
+  }
 
   return (
     <StyledPostForm onSubmit={handleSubmit(onSubmit)}>
