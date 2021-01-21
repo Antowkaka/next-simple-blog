@@ -1,8 +1,13 @@
 import { combineReducers } from 'redux';
 import { getPostsReducer } from './reducers/getPostsReducer';
-import { createPostReducer } from './reducers/createPostReducer';
+import { postCRUDReducer } from './reducers/postCRUDReducer';
+import { commentsReducer } from './reducers/commentsReducer';
 
-const rootReducer = combineReducers({ posts: getPostsReducer, post: createPostReducer });
+const rootReducer = combineReducers({
+  posts: getPostsReducer,
+  post: postCRUDReducer,
+  comments: commentsReducer,
+});
 
 export default rootReducer;
 export type RootState = ReturnType<typeof rootReducer>;
