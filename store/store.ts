@@ -23,5 +23,5 @@ const makeStore = (context: Context): Store => {
 
 // export an assembled wrapper
 export const wrapper = createWrapper<CombinedState<PostsState & PostState>>(makeStore, {
-  debug: true,
+  debug: false,
 });
