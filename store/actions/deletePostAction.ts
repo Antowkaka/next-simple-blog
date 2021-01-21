@@ -9,8 +9,8 @@ import {
 export const deletePostRequestAction = (id: number): DeletePostRequestActionType => ({
   type: DELETE_POST_REQUEST,
   payload: {
-    id,
     CRUDType: 'delete',
+    id,
     loading: true,
   },
 });
@@ -18,6 +18,7 @@ export const deletePostRequestAction = (id: number): DeletePostRequestActionType
 export const deletePostSuccessAction = (status: string): DeletePostSuccessActionType => ({
   type: DELETE_POST_SUCCESS,
   payload: {
+    CRUDType: '',
     status,
     loading: false,
   },
@@ -26,6 +27,7 @@ export const deletePostSuccessAction = (status: string): DeletePostSuccessAction
 export const deletePostFailedAction = (error: IError): DeletePostFailedActionType => ({
   type: DELETE_POST_FAILED,
   payload: {
+    CRUDType: '',
     status: 'failed',
     loading: false,
     error,

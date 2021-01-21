@@ -175,6 +175,7 @@ type UpdatePostFailedActionType = {
 type DeletePostRequestActionType = {
   type: typeof DELETE_POST_REQUEST;
   payload: {
+    CRUDType: string;
     id: number;
     loading: boolean;
   };
