@@ -9,13 +9,17 @@ import {
   DELETE_POST_REQUEST,
   DELETE_POST_SUCCESS,
   DELETE_POST_FAILED,
-  CLEAN_CRUD_TYPE,
+  SET_CRUD_TYPE,
+  UPDATE_POST_REQUEST,
+  UPDATE_POST_SUCCESS,
+  UPDATE_POST_FAILED,
 } from '../actionTypes';
 import {
   CreatePostActionType,
   DeletePostActionType,
   GetOnePostActionType,
   PostState,
+  UpdatePostActionType,
 } from '../../type';
 
 const initialState: PostState = {
@@ -30,7 +34,10 @@ const initialState: PostState = {
 
 export const postCRUDReducer = (
   state: PostState = initialState,
-  { type, payload }: CreatePostActionType | GetOnePostActionType | DeletePostActionType,
+  {
+    type,
+    payload,
+  }: CreatePostActionType | GetOnePostActionType | UpdatePostActionType | DeletePostActionType,
 ): PostState => {
   switch (type) {
     case CREATE_POST_REQUEST:
@@ -63,6 +70,21 @@ export const postCRUDReducer = (
         ...state,
         ...payload,
       };
+    case UPDATE_POST_REQUEST:
+      return {
+        ...state,
+        ...payload,
+      };
+    case UPDATE_POST_SUCCESS:
+      return {
+        ...state,
+        ...payload,
+      };
+    case UPDATE_POST_FAILED:
+      return {
+        ...state,
+        ...payload,
+      };
     case DELETE_POST_REQUEST:
       return {
         ...state,
@@ -83,7 +105,7 @@ export const postCRUDReducer = (
         ...state,
         ...payload,
       };
-    case CLEAN_CRUD_TYPE:
+    case SET_CRUD_TYPE:
       return {
         ...state,
         ...payload,
