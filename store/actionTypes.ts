@@ -10,8 +10,12 @@ export const CREATE_POST_FAILED = 'CREATE_POST_FAILED';
 export const GET_POST_REQUEST = 'GET_POST_REQUEST';
 export const GET_POST_SUCCESS = 'GET_POST_SUCCESS';
 export const GET_POST_FAILED = 'GET_POST_FAILED';
-// Clean CRUD type action
-export const CLEAN_CRUD_TYPE = 'CLEAN_CRUD_TYPE';
+// Set CRUD type action
+export const SET_CRUD_TYPE = 'SET_CRUD_TYPE';
+// Update single post action types
+export const UPDATE_POST_REQUEST = 'UPDATE_POST_REQUEST';
+export const UPDATE_POST_SUCCESS = 'UPDATE_POST_SUCCESS';
+export const UPDATE_POST_FAILED = 'UPDATE_POST_FAILED';
 // Delete single post action types
 export const DELETE_POST_REQUEST = 'DELETE_POST_REQUEST';
 export const DELETE_POST_SUCCESS = 'DELETE_POST_SUCCESS';

@@ -9,6 +9,10 @@ import {
   DELETE_POST_REQUEST,
   DELETE_POST_SUCCESS,
   DELETE_POST_FAILED,
+  UPDATE_POST_REQUEST,
+  UPDATE_POST_SUCCESS,
+  UPDATE_POST_FAILED,
+  SET_CRUD_TYPE,
 } from '/store/actionTypes';
 import { AnyAction, Store } from 'redux';
 import { Task } from '@redux-saga/types';
@@ -79,6 +83,14 @@ type GetPostsFailedActionType = {
   };
 };
 
+// Set CRUDType action
+type SetCRUDTypeActionType = {
+  type: typeof SET_CRUD_TYPE;
+  payload: {
+    CRUDType: string;
+  };
+};
+
 // Create post actions
 type CreatePostRequestActionType = {
   type: typeof CREATE_POST_REQUEST;
@@ -110,7 +122,6 @@ type GetPostRequestActionType = {
   type: typeof GET_POST_REQUEST;
   payload: {
     post: IPost;
-    CRUDType: string;
     loading: boolean;
   };
 };
@@ -133,12 +144,38 @@ type GetPostFailedActionType = {
   };
 };
 
+// Update single post actions
+type UpdatePostRequestActionType = {
+  type: typeof UPDATE_POST_REQUEST;
+  payload: {
+    post: IPost;
+    loading: boolean;
+  };
+};
+
+type UpdatePostSuccessActionType = {
+  type: typeof UPDATE_POST_SUCCESS;
+  payload: {
+    post: IPost;
+    status: string;
+    loading: boolean;
+  };
+};
+
+type UpdatePostFailedActionType = {
+  type: typeof UPDATE_POST_FAILED;
+  payload: {
+    status: string;
+    loading: boolean;
+    error: IError;
+  };
+};
+
 // Delete single post actions
 type DeletePostRequestActionType = {
   type: typeof DELETE_POST_REQUEST;
   payload: {
     id: number;
-    CRUDType: string;
     loading: boolean;
   };
 };
@@ -146,6 +183,7 @@ type DeletePostRequestActionType = {
 type DeletePostSuccessActionType = {
   type: typeof DELETE_POST_SUCCESS;
   payload: {
+    CRUDType: string;
     status: string;
     loading: boolean;
   };
@@ -154,6 +192,7 @@ type DeletePostSuccessActionType = {
 type DeletePostFailedActionType = {
   type: typeof DELETE_POST_FAILED;
   payload: {
+    CRUDType: string;
     status: string;
     loading: boolean;
     error: IError;
@@ -188,3 +227,8 @@ type DeletePostActionType =
   | DeletePostRequestActionType
   | DeletePostSuccessActionType
   | DeletePostFailedActionType;
+
+type UpdatePostActionType =
+  | UpdatePostRequestActionType
+  | UpdatePostSuccessActionType
+  | UpdatePostFailedActionType;
