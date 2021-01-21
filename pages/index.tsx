@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { EffectCallback, useEffect } from 'react';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 
@@ -13,15 +13,20 @@ import { PostsState } from '../type';
 import useShallowEqualSelector from '../hooks/useShallowEqualSelector';
 import { getPostsRequestAction } from '../store/actions/getPostsAction';
 import { CombinedState } from 'redux';
+import { wrapper } from '../store/store';
+import { clearCRUDtypeAction } from '../store/actions/helpActions';
 
-export default function Home(): React.ReactFragment {
+function Home(): React.ReactFragment {
   const {
     posts: { posts, loading, error },
   }: CombinedState<{ posts: PostsState }> = useShallowEqualSelector((store) => store);
   const dispatch = useDispatch();
-
-  useEffect(() => {
+  useEffect((): EffectCallback => {
     dispatch(getPostsRequestAction());
+
+    return () => {
+      dispatch(clearCRUDtypeAction());
+    };
   }, []);
 
   return (
@@ -43,10 +48,4 @@ export default function Home(): React.ReactFragment {
   );
 }
 
-/*export async function getServerSideProps(): Promise<{ props: { data: IPost[] } }> {
-    const res = await axios.get<IPost[]>('https://simple-blog-api.crew.red/posts');
-
-    return {
-        props: { data: res.data }
-    }
-}*/
+export default Home;
