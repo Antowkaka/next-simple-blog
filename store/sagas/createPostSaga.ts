@@ -1,7 +1,7 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
 import { put, takeLatest } from '@redux-saga/core/effects';
 
-import { CREATE_POST_REQUEST, GET_POSTS_REQUEST } from '../actionTypes';
+import { CREATE_POST_REQUEST } from '../actionTypes';
 import { createPostSuccessAction, createPostFailedAction } from '../actions/createPostAction';
 import { CreatePostRequestActionType } from '../../type';
 
