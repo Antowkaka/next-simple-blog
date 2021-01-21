@@ -1,17 +1,26 @@
-import React from "react";
-import { Provider } from "react-redux";
+import React, { FC } from 'react';
+import { wrapper } from '../store/store';
 
-import type { AppProps } from "next/app";
+import type { AppContext, AppProps } from 'next/app';
 
-import '../styles/globals.css'
-import store from "../store/store";
+import '../styles/globals.css';
+import { getPostsRequestAction } from '../store/actions/getPostsAction';
+import { GET_POSTS_REQUEST } from '../store/actionTypes';
+import { SagaStore } from '../type';
 
-function MyApp({ Component, pageProps }: AppProps): JSX.Element {
-  return (
-      <Provider store={store}>
-        <Component {...pageProps} />
-      </Provider>
-  )
+function WrappedApp({ Component, pageProps }: AppProps) {
+  return <Component {...pageProps} />;
 }
 
-export default MyApp
+WrappedApp.getInitialProps = async ({ Component, ctx }: AppContext) => {
+  return {
+    pageProps: {
+      // Call page-level getInitialProps
+      ...(Component.getInitialProps ? await Component.getInitialProps(ctx) : {}),
+      // Some custom thing for all pages
+      pathname: ctx.pathname,
+    },
+  };
+};
+
+export default wrapper.withRedux(WrappedApp);
