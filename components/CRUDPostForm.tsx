@@ -2,12 +2,12 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
-import { useRouter } from 'next/router';
 
 import { IPost } from '../type';
 import { createPostRequestAction } from '../store/actions/createPostAction';
 import useShallowEqualSelector from '../hooks/useShallowEqualSelector';
-import { clearStatusActions } from '../store/actions/helpActions';
+import { updatePostRequestAction } from '../store/actions/updatePostAction';
+import { useRouter } from 'next/router';
 
 const StyledPostForm = styled.form`
   display: flex;
@@ -83,33 +83,41 @@ const CRUDPostForm = (): JSX.Element => {
   const router = useRouter();
 
   const onSubmit = (data) => {
-    data.id = posts.length + 1;
-    dispatch(createPostRequestAction(data));
+    switch (CRUDType) {
+      case 'create':
+        {
+          data.id = posts.length + 1;
+          dispatch(createPostRequestAction(data));
+        }
+        break;
+      case 'update':
+        {
+          data.id = router.query.postId;
+          dispatch(updatePostRequestAction(data));
+        }
+        break;
+    }
   };
-
-  if (status === 'success') {
-    router.replace('/');
-    dispatch(clearStatusActions());
-  }
 
   return (
     <StyledPostForm onSubmit={handleSubmit(onSubmit)}>
       <StyledInput
         name="title"
         type="text"
-        defaultValue={CRUDType ? post.title : ''}
+        defaultValue={CRUDType !== 'create' ? post.title : ''}
         placeholder="Post title"
-        ref={register({ required: true, maxLength: 20 })}
+        ref={register({ required: true })}
       />
       {errors.title && <StyledError>Title is required</StyledError>}
       <StyledTextarea
         name="body"
-        defaultValue={CRUDType ? post.body : ''}
+        defaultValue={CRUDType !== 'create' ? post.body : ''}
         placeholder="Post body"
         ref={register({ required: true, minLength: 20 })}
       />
       {errors.body && <StyledError>Text is required and must contain min. 20 symbols</StyledError>}
-      <StyledButton type="submit" value="Create" />
+      <StyledButton type="submit" value={CRUDType.toUpperCase()} />
+      {status === 'success' && <p>Success</p>}
     </StyledPostForm>
   );
 };
