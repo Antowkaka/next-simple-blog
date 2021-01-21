@@ -6,7 +6,7 @@ import { NextPageContext } from "next";
 import Header from "../../layouts/Header";
 import Container from "../../layouts/Container";
 import PostsBlock from "../../layouts/PostsBlock";
-import NewPostForm from "../../components/NewPostForm";
+import CRUDPostForm from "../../components/CRUDPostForm";
 import Footer from "../../layouts/Footer";
 
 const NewPost = ({title, body}: IPost): JSX.Element => {
@@ -15,7 +15,7 @@ const NewPost = ({title, body}: IPost): JSX.Element => {
             <Header/>
             <Container>
                 <PostsBlock>
-                    <NewPostForm/>
+                    <CRUDPostForm/>
                 </PostsBlock>
             </Container>
             <Footer/>

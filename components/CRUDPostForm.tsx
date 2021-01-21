@@ -7,7 +7,7 @@ import { useRouter } from 'next/router';
 import { IPost } from '../type';
 import { createPostRequestAction } from '../store/actions/createPostAction';
 import useShallowEqualSelector from '../hooks/useShallowEqualSelector';
-import { clearPostStatusAction } from '../store/actions/clearPostStatusAction';
+import { clearStatusActions } from '../store/actions/helpActions';
 
 const StyledPostForm = styled.form`
   display: flex;
@@ -72,22 +72,24 @@ const StyledError = styled.div`
   font-weight: bold;
 `;
 
-const NewPostForm = (): JSX.Element => {
+const CRUDPostForm = (): JSX.Element => {
   const { register, handleSubmit, errors } = useForm<IPost>();
   const {
-    post: { status },
+    post: { post, CRUDType, status },
+    posts: { posts },
   } = useShallowEqualSelector((state) => state);
 
   const dispatch = useDispatch();
   const router = useRouter();
 
   const onSubmit = (data) => {
+    data.id = posts.length + 1;
     dispatch(createPostRequestAction(data));
   };
 
   if (status === 'success') {
     router.replace('/');
-    dispatch(clearPostStatusAction());
+    dispatch(clearStatusActions());
   }
 
   return (
@@ -95,12 +97,14 @@ const NewPostForm = (): JSX.Element => {
       <StyledInput
         name="title"
         type="text"
+        defaultValue={CRUDType ? post.title : ''}
         placeholder="Post title"
-        ref={register({ required: true, maxLength: 10 })}
+        ref={register({ required: true, maxLength: 20 })}
       />
       {errors.title && <StyledError>Title is required</StyledError>}
       <StyledTextarea
         name="body"
+        defaultValue={CRUDType ? post.body : ''}
         placeholder="Post body"
         ref={register({ required: true, minLength: 20 })}
       />
@@ -110,4 +114,4 @@ const NewPostForm = (): JSX.Element => {
   );
 };
 
-export default NewPostForm;
+export default CRUDPostForm;
