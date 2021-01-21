@@ -6,26 +6,37 @@ import {
   CREATE_POST_SUCCESS,
   CREATE_POST_FAILED,
   CLEAR_POST_STATUS,
+  DELETE_POST_REQUEST,
+  DELETE_POST_SUCCESS,
+  DELETE_POST_FAILED,
 } from '/store/actionTypes';
+import { AnyAction, Store } from 'redux';
+import { Task } from '@redux-saga/types';
+
+// Main interface for Comment object
+interface IComment {
+  postId: number;
+  body: string;
+  id: number;
+}
 
 // Main interface for Post object
 interface IPost {
   id?: number;
   title: string;
   body: string;
-  comments?: [
-    {
-      id: number;
-      postId: number;
-      body: string;
-    },
-  ];
+  comments?: IComment[];
 }
 
 // Main interface for Errors from server or Promise
 interface IError {
   statusCode?: number;
   message: string;
+}
+
+// Interface for extending DefaultReduxStore
+interface SagaStore extends Store<State, AnyAction> {
+  sagaTask: Task;
 }
 
 // State for fetching all posts from server
@@ -38,6 +49,7 @@ type PostsState = {
 // State for CRUD operations for single post
 type PostState = {
   post: IPost;
+  CRUDType: string;
   status: string;
   loading: boolean;
   error?: IError;
@@ -93,6 +105,61 @@ type CreatePostFailedActionType = {
   };
 };
 
+// Read single post actions
+type GetPostRequestActionType = {
+  type: typeof GET_POST_REQUEST;
+  payload: {
+    post: IPost;
+    CRUDType: string;
+    loading: boolean;
+  };
+};
+
+type GetPostSuccessActionType = {
+  type: typeof GET_POST_SUCCESS;
+  payload: {
+    post: IPost;
+    status: string;
+    loading: boolean;
+  };
+};
+
+type GetPostFailedActionType = {
+  type: typeof GET_POST_FAILED;
+  payload: {
+    status: string;
+    loading: boolean;
+    error: IError;
+  };
+};
+
+// Delete single post actions
+type DeletePostRequestActionType = {
+  type: typeof DELETE_POST_REQUEST;
+  payload: {
+    id: number;
+    CRUDType: string;
+    loading: boolean;
+  };
+};
+
+type DeletePostSuccessActionType = {
+  type: typeof DELETE_POST_SUCCESS;
+  payload: {
+    status: string;
+    loading: boolean;
+  };
+};
+
+type DeletePostFailedActionType = {
+  type: typeof DELETE_POST_FAILED;
+  payload: {
+    status: string;
+    loading: boolean;
+    error: IError;
+  };
+};
+
 // Type for Action which clear status field from PostState
 type ClearStatusActionType = {
   type: typeof CLEAR_POST_STATUS;
@@ -111,3 +178,13 @@ type CreatePostActionType =
   | CreatePostRequestActionType
   | CreatePostSuccessActionType
   | CreatePostFailedActionType;
+
+type GetOnePostActionType =
+  | GetPostRequestActionType
+  | GetPostSuccessActionType
+  | GetPostFailedActionType;
+
+type DeletePostActionType =
+  | DeletePostRequestActionType
+  | DeletePostSuccessActionType
+  | DeletePostFailedActionType;
