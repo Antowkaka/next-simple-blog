@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { EffectCallback, useEffect } from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
 
@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux';
 import useShallowEqualSelector from '../hooks/useShallowEqualSelector';
 import { SHOW_COMMENTS } from '../store/actionTypes';
 import { deletePostRequestAction } from '../store/actions/deletePostAction';
+import { clearStatusActions, setCRUDtypeAction } from '../store/actions/helpActions';
 
 const StyledSinglePost = styled.div`
   width: 100%;
@@ -36,9 +37,14 @@ const SinglePostButton = styled.button`
 
 const SinglePost = ({ id, title, body }: IPost): JSX.Element => {
   const {
+    post: { status },
     comments: { show },
   } = useShallowEqualSelector((store) => store);
   const dispatch = useDispatch();
+
+  const setCRUDType = () => {
+    dispatch(setCRUDtypeAction('update'));
+  };
 
   const ShowComments = (): void => {
     dispatch({ type: SHOW_COMMENTS, payload: !show });
@@ -48,12 +54,19 @@ const SinglePost = ({ id, title, body }: IPost): JSX.Element => {
     dispatch(deletePostRequestAction(id));
   };
 
+  useEffect(
+    (): EffectCallback => () => {
+      dispatch(clearStatusActions());
+    },
+    [],
+  );
+
   return (
     <StyledSinglePost>
       <h2>Title: {title}</h2>
       <p>Body text: {body}</p>
       <Link href="/posts/[postId]/update" as={`/posts/${id}/update`}>
-        <SinglePostButton color="green" as="a">
+        <SinglePostButton color="green" as="a" onClick={setCRUDType}>
           Update
         </SinglePostButton>
       </Link>

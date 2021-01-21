@@ -1,5 +1,5 @@
-import { CLEAN_CRUD_TYPE, CLEAR_POST_STATUS } from '../actionTypes';
-import { ClearStatusActionType } from '../../type';
+import { SET_CRUD_TYPE, CLEAR_POST_STATUS } from '../actionTypes';
+import { ClearStatusActionType, SetCRUDTypeActionType } from '../../type';
 
 export const clearStatusActions = (): ClearStatusActionType => ({
   type: CLEAR_POST_STATUS,
@@ -8,9 +8,9 @@ export const clearStatusActions = (): ClearStatusActionType => ({
   },
 });
 
-export const clearCRUDtypeAction = () => ({
-  type: CLEAN_CRUD_TYPE,
+export const setCRUDtypeAction = (crudType: string): SetCRUDTypeActionType => ({
+  type: SET_CRUD_TYPE,
   payload: {
-    CRUDType: '',
+    CRUDType: crudType,
   },
 });

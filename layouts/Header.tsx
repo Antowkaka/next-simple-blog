@@ -1,7 +1,10 @@
-import React from "react";
+import React from 'react';
 import Head from 'next/head';
-import  Link  from 'next/link';
+import Link from 'next/link';
 import styled from 'styled-components';
+import { use } from 'ast-types';
+import { useDispatch } from 'react-redux';
+import { setCRUDtypeAction } from '../store/actions/helpActions';
 
 const StyledHeader = styled.header`
   background-color: #0070f3;
@@ -9,33 +12,41 @@ const StyledHeader = styled.header`
   justify-content: space-around;
   height: 60px;
   align-items: center;
-  
+
   a {
     font-size: 1.5rem;
     text-align: center;
     color: papayawhip;
     margin-left: 10px;
-    
-    &:hover{
+
+    &:hover {
       color: #deb37f;
-    } 
+    }
   }
 `;
 
 const Header = (): JSX.Element => {
-    return (
-        <StyledHeader>
-            <div>
-                <h1>Simple Blog</h1>
-            </div>
-            <div>
-                <Link href="/"><a>Home</a></Link>
-                <Link href="/posts/new"><a>New post</a></Link>
-            </div>
-        </StyledHeader>
-    )
-}
+  const dispatch = useDispatch();
+
+  const setCrudType = () => {
+    dispatch(setCRUDtypeAction('create'));
+  };
+
+  return (
+    <StyledHeader>
+      <div>
+        <h1>Simple Blog</h1>
+      </div>
+      <div>
+        <Link href="/">
+          <a>Home</a>
+        </Link>
+        <Link href="/posts/new">
+          <a onClick={setCrudType}>New post</a>
+        </Link>
+      </div>
+    </StyledHeader>
+  );
+};
 
 export default Header;
-
-
