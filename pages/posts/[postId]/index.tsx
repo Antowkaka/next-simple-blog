@@ -11,7 +11,6 @@ import { useRouter } from 'next/router';
 import SinglePostBlock from '../../../layouts/SinglePostBlock';
 import Comment from '../../../components/Comment';
 import SinglePost from '../../../components/SinglePost';
-import { clearCRUDtypeAction } from '../../../store/actions/helpActions';
 
 const OnePost = ({ title, body }: IPost): JSX.Element => {
   const {
