@@ -1,5 +1,6 @@
 import { GET_POSTS_REQUEST, GET_POSTS_SUCCESS, GET_POSTS_FAILED } from '../actionTypes';
 import { GetPostsActionType, PostsState } from '../../type';
+import { HYDRATE } from 'next-redux-wrapper';
 
 const initialState: PostsState = {
   posts: [],
